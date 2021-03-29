@@ -85,6 +85,10 @@ async function writeSitemap(options, outputDir) {
 	Object.keys(sitemaps).forEach(function(filename) {
 		const output = `${outputDir}/${filename}.xml`;
 
+		if (!fs.existsSync(outputDir)) {
+			fs.mkdirSync(outputDir, {recursive: true});
+		}
+
 		// Avoid writing the same sitemap twice when creating two bundles (e.g. using --modern option)
 		if (!fs.existsSync(output)) {
 			fs.writeFileSync(output, options.pretty ? sitemaps[filename] : sitemaps[filename].replace(/\t+|\n/g, ''));
